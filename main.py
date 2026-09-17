@@ -100,3 +100,32 @@ st.write(
     f"대부분의 영화가 **총 관객 수 200만 명 이하의 하위 구간**에 밀집되어 있는 L자형 구조를 띠고 있으며, "
     f"가장 관객 수가 많은 영화는 **'{max_movie_name}'**(약 {max_audi_val:,}명)입니다."
 )
+
+st.markdown("---")
+
+# ---------------------------------------------------------
+# 4. 개봉일 스크린 수 vs 총 관객 수 (산점도)
+# ---------------------------------------------------------
+st.header("4. 개봉일 스크린 수 vs 총 관객 수 관계")
+
+fig_scatter = px.scatter(
+    df,
+    x="first_scrn",
+    y="total_audi",
+    color="genre",
+    hover_name="movieNm",
+    labels={
+        "first_scrn": "개봉일 스크린 수",
+        "total_audi": "총 관객 수",
+        "genre": "장르",
+    },
+)
+
+fig_scatter.update_traces(
+    hovertemplate="<b>%{hovertext}</b><br>개봉일 스크린 수: %{x:,}개<br>총 관객 수: %{y:,}명<extra></extra>"
+)
+
+st.plotly_chart(fig_scatter, use_container_width=True)
+
+st.subheader("💡 이 그래프로 알 수 있는 것")
+st.write("개봉일에 확보한 스크린 수가 많을수록 최종 총 관객 수도 증가하는 양의 상관관계를 보이며, 장르별 스크린 확보 수준 및 흥행 선점 양상을 비교할 수 있습니다.")
