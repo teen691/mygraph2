@@ -12,7 +12,7 @@ def load_data():
     df = pd.read_csv(url)
 
     # 결측치는 빈 문자열로 처리하여 장르가 없는 경우 안전하게 제거/처리
-    df["genre"] = df["genre"].fillna("").astype(str).apply(lambda x: x.split("|")[0] if x else "기타")[cite: 2]
+    df["genre"] = df["genre"].fillna("").astype(str).apply(lambda x: x.split("|")[0] if x else "기타")
 
     return df
 
@@ -23,8 +23,8 @@ df = load_data()
 # ---------------------------------------------------------
 st.header("1. 장르별 영화 편수 분포")
 
-genre_counts = df["genre"].value_counts().reset_index()[cite: 2]
-genre_counts.columns = ["장르", "영화 수"][cite: 2]
+genre_counts = df["genre"].value_counts().reset_index()
+genre_counts.columns = ["장르", "영화 수"]
 
 fig_donut = px.pie(
     genre_counts,
@@ -32,15 +32,15 @@ fig_donut = px.pie(
     names="장르",
     hole=0.4,
     labels={"영화 수": "편수", "장르": "장르"},
-)[cite: 2]
-
-fig_donut.update_traces(
-    textinfo="percent+label",[cite: 2]
-    textposition="inside",  # 라벨을 조각 내부로 지정 (지시선 제거)
-    hovertemplate="%{label}<br>편수: %{value}편<br>비율: %{percent}",[cite: 2]
 )
 
-st.plotly_chart(fig_donut, use_container_width=True)[cite: 2]
+fig_donut.update_traces(
+    textinfo="percent+label",
+    textposition="inside",  # 라벨을 조각 내부로 지정 (지시선 제거)
+    hovertemplate="%{label}<br>편수: %{value}편<br>비율: %{percent}",
+)
+
+st.plotly_chart(fig_donut, use_container_width=True)
 st.subheader("💡 이 그래프로 알 수 있는 것")
 st.write("박스오피스 상위권 영화 중 어떤 장르의 영화가 가장 많이 제작 및 개봉되었는지 장르별 비중을 파악할 수 있습니다.")
 
