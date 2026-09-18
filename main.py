@@ -9,11 +9,10 @@ def load_data():
     url = "https://raw.githubusercontent.com/greatsong/modudata/main/data/kobis_movies.csv"
     df = pd.read_csv(url)
 
-    # 장르 전처리: 세로막대 기호(|)로 분리된 장르 중 첫 번째 장르만 선택
-    df["genre"] = df["genre"].astype(str).apply(lambda x: x.split("|")[0])
+    # 장르 결측치 처리 및 안전한 문자열 분리
+    df["genre"] = df["genre"].fillna("미상").astype(str).str.split("|").str[0]
 
     return df
-
 
 df = load_data()
 
