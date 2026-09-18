@@ -216,3 +216,22 @@ st.plotly_chart(fig_sunburst, use_container_width=True)
 
 st.subheader("💡 이 그래프로 알 수 있는 것")
 st.write("안쪽 원의 **제작 국가**에서 바깥쪽 원의 **장르**로 이어지는 계층 구조를 통해 각 국가별로 어떤 장르의 영화가 주로 제작·개봉되었는지 영화 편수 비율을 입체적으로 분석할 수 있습니다.")
+# ---------------------------------------------------------
+# 8. 개봉일 스크린 수 분포 (히스토그램)
+# ---------------------------------------------------------
+st.header("8. 개봉일 스크린 수 분포")
+
+fig_hist_scrn = px.histogram(
+    df,
+    x="first_scrn",
+    nbins=30,
+    labels={"first_scrn": "개봉일 스크린 수", "count": "영화 수"},
+)
+fig_hist_scrn.update_traces(
+    hovertemplate="스크린 수 구간: %{x}개<br>영화 수: %{y}편<extra></extra>"
+)
+
+st.plotly_chart(fig_hist_scrn, use_container_width=True)
+
+st.subheader("💡 이 그래프로 알 수 있는 것")
+st.write("개봉일에 배정받은 스크린 수가 주로 어느 구간에 집중되어 있는지 분포 현황을 파악할 수 있습니다.")
