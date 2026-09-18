@@ -13,6 +13,7 @@ def load_data():
 
     # 결측치는 빈 문자열로 처리하여 장르가 없는 경우 안전하게 제거/처리
     df["genre"] = df["genre"].fillna("").astype(str).apply(lambda x: x.split("|")[0] if x else "기타")
+    df["nation"] = df["nation"].fillna("기타").astype(str)
 
     return df
 
@@ -193,3 +194,25 @@ st.plotly_chart(fig_bubble, use_container_width=True)
 
 st.subheader("💡 이 그래프로 알 수 있는 것")
 st.write("개봉일 스크린 수와 최종 총 관객 수의 관계에 더해, **버블의 크기(첫 주 관객 수)**를 통해 개봉 초반 흥행 몰이(초반 집객력)가 최종 총 관객 수에 얼마나 큰 영향을 미쳤는지 한눈에 파악할 수 있습니다.")
+
+st.markdown("---")
+
+# ---------------------------------------------------------
+# 7. 제작 국가 및 장르별 영화 편수 (선버스트 그래프)
+# ---------------------------------------------------------
+st.header("7. 제작 국가 및 장르별 영화 편수 분포")
+
+fig_sunburst = px.sunburst(
+    df,
+    path=["nation", "genre"],
+    labels={"nation": "제작 국가", "genre": "장르"},
+)
+
+fig_sunburst.update_traces(
+    hovertemplate="<b>%{label}</b><br>영화 수: %{value}편<extra></extra>"
+)
+
+st.plotly_chart(fig_sunburst, use_container_width=True)
+
+st.subheader("💡 이 그래프로 알 수 있는 것")
+st.write("안쪽 원의 **제작 국가**에서 바깥쪽 원의 **장르**로 이어지는 계층 구조를 통해 각 국가별로 어떤 장르의 영화가 주로 제작·개봉되었는지 영화 편수 비율을 입체적으로 분석할 수 있습니다.")
